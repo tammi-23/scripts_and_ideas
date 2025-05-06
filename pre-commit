@@ -1,0 +1,24 @@
+#!/bin/bash
+
+# Find all "console.log*" inside stacked files
+FILES_WITH_LOG=$(git diff --cached --name-only --diff-filter=ACM | grep -E '\.(js|ts|jsx|tsx)$' | xargs grep -n 'console\.log' 2>/dev/null)
+
+if [ -n "$FILES_WITH_LOG" ]; then
+  echo "REMINDER: There are still "console.log" inside your staged files:"
+  echo "$FILES_WITH_LOG"
+  echo ""
+  read -p "Do you still want to commit? (y/N): " answer
+  case "$answer" in
+    [yY][eE][sS]|[yY]) 
+      echo "Committing will be  performed..."
+      exit 0
+      ;;
+    *)
+      echo "Commit aborted."
+      exit 1
+      ;;
+  esac
+fi
+
+# No console.log found, continuing Commit 
+exit 0
