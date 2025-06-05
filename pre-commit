@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Find all "console.log*" inside stacked files
+# Find all "console.log" inside stacked files
 FILES_WITH_LOG=$(git diff --cached --name-only --diff-filter=ACM | grep -E '\.(js|ts|jsx|tsx)$' | xargs grep -n 'console\.log' 2>/dev/null)
 
 if [ -n "$FILES_WITH_LOG" ]; then
